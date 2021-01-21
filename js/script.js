@@ -10,8 +10,13 @@ For assistance:
    Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
+/*function createElement(elementName, property, value) {
+   const element = document.createElement(elementName)
+   element[property] = value;
+   return element
+}
 
-
+const studentName = createElement('h3', data[1].name, `${data[1].name.first}`, `${data[1].name.last}`); 
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
@@ -32,22 +37,26 @@ function showPage(list, page) {
          // insert the above elements
     for (let i = 0; i < list.length; i++) {
         if ( i >= startIndex && i < endIndex) {
-           const li = document.createElement('li');
-           const span = document.createElement('span')
-           span.textContent = data.email;
-           li.appendChild(span);
+           let li = document.createElement('li');
+           const studentDiv = document.createElement('div');
+           li.appendChild(studentDiv);
+           const img = document.createElement('img');
+           img.src = list[i].picture.medium;
+           studentDiv.appendChild(img);
            const h3 = document.createElement('h3');
-           h3.textContent = text;
-           li.appendChild(h3);
-
-           return li;
+           h3.textContent = `${list[i].name.first} ${list[i].name.last}`
+           studentDiv.appendChild(h3);
+           const emailSpan = document.createElement('span')
+           emailSpan.textContent = list[i].email;
+           studentDiv.appendChild(emailSpan);
+   //add this to the student list children
+           studentList.appendChild(li);       
          
-           
-           console.log(studentList)
-         
-       }
+      }
    }
 }
+
+showPage(data,1);
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
