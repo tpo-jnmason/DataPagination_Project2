@@ -7,6 +7,7 @@ FSJS Project 2 - Data Pagination and Filtering
  const studentList = document.querySelector('.student-list');
  const header = document.querySelector('header');
  const linkList = document.querySelector('.link-list');
+ 
 
  // The createElement function allows an easy way to pull the student data from
  // data.js in order to display to the web page without duplicating code.
@@ -76,16 +77,53 @@ function addPagination(list) {
         let activeButton = linkList.firstElementChild.firstElementChild;
         activeButton.className = 'active';
 
-    linkList.addEventListener('click', (e) => {
+        linkList.addEventListener('click', (e) => {
 
-        if (e.target.type === 'button') {
-            let page = e.target.textContent;
-            linkList.querySelector('.active').className = '';
-            e.target.className = 'active';
-            showPage(list, page);
-        }
-    });
+         if (e.target.type === 'button') {
+             let page = e.target.textContent;
+             linkList.querySelector('.active').className = '';
+             e.target.className = 'active';
+             showPage(list, page);
+         }
+      });
 }
 
+function searchBar() {
+
+   const boxLabel = createElement('label', 'className', 'student-search');
+   header.appendChild(boxLabel);
+
+   const userInput = createElement('input', 'placeholder', 'Search by name...');
+   userInput.id = 'searchInput';
+   boxLabel.appendChild(userInput);
+
+   const searchButton = createElement('button', '', '');
+   searchButton.type = 'button';
+   boxLabel.appendChild(searchButton);
+
+   const buttonImg = createElement('img', 'src', 'img/icn-search.svg');
+   searchButton.appendChild(buttonImg);   
+   
+   searchButton.addEventListener('click', (e) => { 
+      studentSearch();
+   });
+}
+
+function studentSearch(list, page) {
+   let studentArray = [];
+   const searchInput = document.querySelector('#searchInput');
+   const typedText = searchInput.value.toUpperCase();
+      for(let i = 0; i < data.length; i++){
+         let studentName = `${data[i].name.first} ${data[i].name.last}`;
+         studentName = studentName.toUpperCase()
+         if (studentName.includes(typedText)){
+         studentArray.push(data[i]);
+         console.log(studentArray) ;    
+      }
+      showPage(studentArray, page );
+      addPagination(studentArray);
+   }
+}
+searchBar(data);
 showPage(data,1);
 addPagination(data);
